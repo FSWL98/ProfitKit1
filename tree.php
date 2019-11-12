@@ -1,4 +1,4 @@
-﻿<?
+﻿<?php
 $data = array(
 array('ID'=>100, 'PARENT_ID' => 0, 'NAME'=> 'Пункт 1',),
 array('ID'=>2, 'PARENT_ID' => 0, 'NAME'=> 'Пункт 2',),
@@ -30,4 +30,23 @@ array('ID'=>27, 'PARENT_ID' => 19, 'NAME'=> 'Пункт 3.1.1',),
 array('ID'=>28, 'PARENT_ID' => 19, 'NAME'=> 'Пункт 3.1.2',),
 array('ID'=>1, 'PARENT_ID' => 20, 'NAME'=> 'Пункт 3.2.1',),
 array('ID'=>30, 'PARENT_ID' => 1, 'NAME'=> 'Пункт 3.2.1.1'));
+function drawItem($item, $data) {
+    echo "<li>";
+    echo $item['NAME'];
+    if (in_array($item['ID'], array_column($data, 'PARENT_ID'))) {
+        echo "<ul>";
+        for ($row = 4; $row < count($data); $row++) {
+            if ($data[$row]['PARENT_ID'] == $item['ID']) {
+                drawItem($data[$row], $data);
+            }
+        }
+        echo "</ul>";
+    }
+    echo "</li>";
+}
+echo "<ul>";
+for ($row = 0; $row < 4; $row++) {
+    drawItem($data[$row], $data);
+}
+echo "</ul>";
 ?>
